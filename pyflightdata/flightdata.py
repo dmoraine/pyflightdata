@@ -661,25 +661,41 @@ class FlightData(FlightMixin):
             f=FlightData()
             f.login(myemail,mypassword)
 
+        Returns:
+            bool: True if the login succeeded and an auth token was obtained,
+            False otherwise (bad credentials, network error, or an unexpected
+            response shape from flightradar24).
+
         """
-        response = FlightData.session.post(
-            url=LOGIN_URL,
-            data={
-                'email': email,
-                'password': password,
-                'remember': 'true',
-                'type': 'web'
-            },
-            headers={
-                'Origin': 'https://www.flightradar24.com',
-                'Referer': 'https://www.flightradar24.com'
-            }
-        )
-        response = self._fr24.json_loads_byteified(
-            response.content) if response.status_code == 200 else None
-        if response:
-            token = response['userData']['subscriptionKey']
-            self.AUTH_TOKEN = token
+        try:
+            response = FlightData.session.post(
+                url=LOGIN_URL,
+                data={
+                    'email': email,
+                    'password': password,
+                    'remember': 'true',
+                    'type': 'web'
+                },
+                headers={
+                    'Origin': 'https://www.flightradar24.com',
+                    'Referer': 'https://www.flightradar24.com'
+                }
+            )
+        except Exception:
+            return False
+        if response.status_code != 200:
+            return False
+        try:
+            payload = self._fr24.json_loads_byteified(response.content)
+            token = payload['userData']['subscriptionKey']
+        except (ValueError, KeyError, TypeError):
+            # ValueError: body was not JSON; KeyError/TypeError: JSON shape
+            # changed and the token is no longer where we expect it.
+            return False
+        if not token:
+            return False
+        self.AUTH_TOKEN = token
+        return True
 
     def logout(self):
         """Logout from the flightradar24 session.

@@ -52,11 +52,11 @@ class TestGetByFlightNumber(object):
         result = f.get_history_by_flight_number('AI101')
         assert result.__len__() > 0
 
-    def test_check_there_is_history_data(self):
+    def test_flight_for_today_has_data(self):
         result = f.get_flight_for_date('AI101',self.t)
         assert result.__len__() > 0
 
-    def test_check_there_is_history_data(self):
+    def test_flight_for_far_future_has_no_data(self):
         result = f.get_flight_for_date('AI101',self.tpls90)
         assert result.__len__() == 0
 
@@ -136,16 +136,16 @@ class TestOtherFeatures(object):
     def test_get_airport_departures(self):
         assert f.get_airport_departures('SIN').__len__() >= 0
 
-    def test_get_airport_departures_earlier(self):
+    def test_get_airport_departures_earlier_pmf(self):
         assert f.get_airport_departures('PMF', earlier_data=True).__len__() >= 0
 
-    def test_get_airport_departures_no_earlier(self):
+    def test_get_airport_departures_no_earlier_sin(self):
         assert f.get_airport_departures('SIN', earlier_data=False).__len__() >= 0
 
-    def test_get_airport_departures_earlier(self):
+    def test_get_airport_departures_earlier_gau(self):
         assert f.get_airport_departures('GAU', earlier_data=True).__len__() >= 0
 
-    def test_get_airport_departures_no_earlier(self):
+    def test_get_airport_departures_no_earlier_gau(self):
         assert f.get_airport_departures('GAU', earlier_data=False).__len__() >= 0
 
     def test_get_airport_onground(self):

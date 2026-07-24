@@ -25,12 +25,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
           pip install pytest pytest-cov pytest-html flaky
-      # These tests call flightradar24 directly; Cloudflare blocks GitHub-hosted
-      # runner IPs regardless of TLS impersonation, so failures here are expected
-      # and don't reflect code health. Kept informational rather than a hard gate.
-      - name: Run tests
+      # Offline unit tests (test_unit.py) exercise pure parsing/filtering/state
+      # logic with no network access, so they are a real gate: if these break,
+      # fail the build.
+      - name: Run offline unit tests
+        run: pytest pyflightdata/test_unit.py
+      # The remaining tests call flightradar24 directly; Cloudflare blocks
+      # GitHub-hosted runner IPs regardless of TLS impersonation, so failures
+      # here are expected and don't reflect code health. Kept informational.
+      # Authenticated tests read FR24_EMAIL/FR24_PASSWORD if those repo secrets
+      # exist, and skip themselves otherwise.
+      - name: Run integration tests (informational)
         continue-on-error: true
-        run: pytest pyflightdata
+        env:
+          FR24_EMAIL: ${{ secrets.FR24_EMAIL }}
+          FR24_PASSWORD: ${{ secrets.FR24_PASSWORD }}
+        run: pytest pyflightdata --ignore=pyflightdata/test_unit.py
 
   publish:
     if: github.event_name == 'release' && github.event.action == 'published'

@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 import json
-import sys
 import time
 
 from bs4 import BeautifulSoup
@@ -53,8 +52,6 @@ class ProcessorMixin(object):
     def _byteify(self, data, ignore_dicts=False):
         # if this is a unicode string, return its string representation
         if isinstance(data, str):
-            return self.encode_and_get(data)
-        if sys.version_info[0] < 3 and isinstance(data, unicode):
             return self.encode_and_get(data)
         # if this is a list of values, return list of byteified values
         if isinstance(data, list):
@@ -159,7 +156,4 @@ class ProcessorMixin(object):
                 pass
 
     def encode_and_get(self, string):
-        if sys.version_info[0] < 3:
-            return string.encode('unicode-escape').replace('\\xa0', ' ')
-        else:
-            return string.encode('unicode-escape').replace(b'\\xa0', b' ').decode('utf-8')
+        return string.encode('unicode-escape').replace(b'\\xa0', b' ').decode('utf-8')
