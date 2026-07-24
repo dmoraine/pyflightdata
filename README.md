@@ -26,6 +26,10 @@ The import name is unchanged, so existing code keeps working:
 from pyflightdata import FlightData
 ```
 
+The test suite calls flightradar24 directly rather than mocking it, so CI runs
+are informational: GitHub-hosted runners get Cloudflare-blocked regardless of
+code correctness, unrelated to whether the library itself works.
+
 Licence
 -------
 
