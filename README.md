@@ -1,29 +1,43 @@
-pyflightdata
-============
+pyflightdata2
+=============
 
-[![Travis](https://img.shields.io/travis/supercoderz/pyflightdata.svg?maxAge=2592000)](https://travis-ci.org/supercoderz/pyflightdata)
-[![PyPI](https://img.shields.io/pypi/dw/pyflightdata.svg?maxAge=2592000)](https://pypi.python.org/pypi/pyflightdata)
-[![PyPI](https://img.shields.io/pypi/v/pyflightdata.svg?maxAge=2592000)](https://pypi.python.org/pypi/pyflightdata)
-[![PyPI](https://img.shields.io/pypi/pyversions/pyflightdata.svg?maxAge=2592000)](https://pypi.python.org/pypi/pyflightdata)
+[![CI](https://github.com/dmoraine/pyflightdata/actions/workflows/ci.yml/badge.svg)](https://github.com/dmoraine/pyflightdata/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/pyflightdata2.svg?maxAge=2592000)](https://pypi.org/project/pyflightdata2/)
+[![PyPI](https://img.shields.io/pypi/pyversions/pyflightdata2.svg?maxAge=2592000)](https://pypi.org/project/pyflightdata2/)
 
 A simple library to get flight data from flightradar24 from within Python code.
 
-Please refer to http://pyflightdata.readthedocs.io/en/latest/ for more details and official documentation.
+This is a community-maintained continuation of [supercoderz/pyflightdata](https://github.com/supercoderz/pyflightdata),
+which has been inactive since 2021. It fixes the Cloudflare 403 errors that broke the
+original package (login and data requests were being blocked) and keeps the project
+alive with modern packaging and CI. If the original project resumes active maintenance,
+please prefer contributing there.
+
+Install
+-------
+
+```
+pip install pyflightdata2
+```
+
+The import name is unchanged, so existing code keeps working:
+
+```python
+from pyflightdata import FlightData
+```
 
 Licence
 -------
 
-The code for pyflightdata is licenced under MIT licence.
+The code for pyflightdata is licenced under MIT licence, see [LICENCE.txt](LICENCE.txt).
 
 We dont own or store any underlying data, the API simply invokes the providers interfaces and returns the data.
 
 Reporting issues
 ----------------
 
-Please feel free to raise an issue when you see a data or code issue, we will respond as soon as we can.
-We don't have any official policy on external contributors yet, but if you feel you can improve some part of the code then please feel free to send a pull request.
-
-We prefer you enrich this API rather than fork it and create your own flavors.
+Please raise an issue at https://github.com/dmoraine/pyflightdata/issues if you see a data or code issue.
+Pull requests are welcome.
 
 Tools using pyflightdata
 ------------------------

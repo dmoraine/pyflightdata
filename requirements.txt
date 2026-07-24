@@ -1,18 +1,15 @@
+# Runtime dependencies are declared in pyproject.toml.
+# This file lists extra tooling needed for local development.
+-e .
 jupyter
-requests
-curl_cffi
-html5lib
-lxml>=4.4.1
-beautifulsoup4>=4.8.1
-pytest==3.6.0
-pytest-cov==2.5.1
-pytest-repeat==0.4.1
-pytest-html==1.22.0
-pytest-metadata==1.8.0
-jsonpath-rw
+pytest
+pytest-cov
+pytest-repeat
+pytest-html
+pytest-metadata
 flaky
 twine
+build
 sphinx
 sphinx-autobuild
 sphinx_rtd_theme
-metar

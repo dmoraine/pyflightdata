@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyflightdata2"
+version = "0.9.0"
+description = "Get flight data from flightradar24 from within Python code (community-maintained continuation of pyflightdata)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Hari Allamraju", email = "anarahari@gmail.com" },
+]
+maintainers = [
+    { name = "Didier Moraine" },
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "requests",
+    "curl_cffi",
+    "lxml>=4.4.1",
+    "beautifulsoup4>=4.8.1",
+    "jsonpath-rw",
+    "metar",
+    "html5lib",
+]
+
+[project.urls]
+Homepage = "https://github.com/dmoraine/pyflightdata"
+Repository = "https://github.com/dmoraine/pyflightdata"
+Issues = "https://github.com/dmoraine/pyflightdata/issues"
+"Original project" = "https://github.com/supercoderz/pyflightdata"
+
+[tool.setuptools]
+packages = ["pyflightdata"]
+
+[tool.setuptools.package-data]
+pyflightdata = ["assets/*"]
