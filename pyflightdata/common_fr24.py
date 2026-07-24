@@ -255,13 +255,21 @@ class FR24(ProcessorMixin):
     def process_raw_airline_fleet_data(self, data, authenticated):
         result = []
         for parent in data:
-            record = {}
             cells = parent.find_all('td')
-            record['reg'] = cells[0].find('a').text.strip()
+            # Rows without at least the reg + type columns are layout/header
+            # artifacts from flightradar24's markup, not fleet entries; skip them
+            # instead of raising IndexError when the site tweaks its HTML.
+            if len(cells) < 2:
+                continue
+            reg_link = cells[0].find('a')
+            if reg_link is None:
+                continue
+            record = {}
+            record['reg'] = reg_link.text.strip()
             record['type'] = cells[1].text.strip()
             record['msn'] = 'requires user login'
             record['age'] = 'requires user login'
-            if authenticated:
+            if authenticated and len(cells) >= 4:
                 record['msn'] = cells[2].text.strip()
                 record['age'] = cells[3].text.strip()
             result.append(record)

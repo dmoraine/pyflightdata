@@ -25,12 +25,19 @@ Util functions
 """
 from __future__ import print_function
 
-from datetime import datetime, timedelta
+from datetime import datetime, timezone
 
-def totimestamp(dt, epoch=datetime(1970,1,1)):
+
+def totimestamp(dt, epoch=datetime(1970, 1, 1)):
     td = dt - epoch
     # return td.total_seconds()
-    return (td.microseconds + (td.seconds + td.days * 86400) * 10**6) / 10**6
+    return (td.microseconds + (td.seconds + td.days * 86400) * 10 ** 6) / 10 ** 6
+
 
 def nowtimestamp_millis():
-    return totimestamp(datetime.utcnow())
+    # NOTE: despite the historical name, flightradar24's schedule ``timestamp``
+    # parameter expects whole epoch *seconds*, so that is what we return.
+    # ``datetime.utcnow()`` is deprecated as of Python 3.12; use a timezone-aware
+    # UTC ``now`` instead. An int (not a float) is returned so the value goes
+    # into the request URL as e.g. ``1700000000`` rather than ``1700000000.66``.
+    return int(datetime.now(timezone.utc).timestamp())
